@@ -1,45 +1,48 @@
-
-const UICtrl = (function(){
-  const onScreen = {
-    keyword: 'dogs',
-    limit: 12,
-    offset: 0,
-    currBtn: document.querySelector('.starter')
+const StorageCtrl = (function() {
+  const store = {
+    categories: []
   }
 
-const categoryBtn = function() {
-    $('.categories .row').append(`<button data-word="${onScreen.keyword}" class="btn btn-large btn-info  col-2 col-md-1 m-1">${onScreen.keyword}</button>`);
-}
+  return {
+    storeCategory: store
+  }
 
-const rowGenerator = function(data){
+
+})()
+
+const UICtrl = (function(StorageCtrl) {
+
+  const onScreen = {
+    keyword: 'Cats',
+    limit: 12,
+    offset: 0,
+
+  }
+
+  const htmlHooks = {
+    modalStore: 'modals',
+    pagination: '.pagination',
+    searchBar: '#search',
+    categorySection: '.categories',
+    currentPage: document.querySelector('.starter')
+  }
+
+
+  //Row Generator and cardTemplate take care of generating the gallery as needed.
+  const rowGenerator = function(data) {
 
     let container = document.createElement('div');
     let node = document.createElement('div');
     node.classList.add('row');
-    console.log(node, "I should be empty");
-    // This works. I do not know why but all the nodes are there before it is called.
     data.forEach((item, index) => {
-      let card = cardTemplate(item);
-
-      node.append(card);
-    //  console.log(node);
-
-
-
-
+      node.innerHTML += cardTemplate(item);
     });
     container.appendChild(node);
 
-
     return container;
-
   }
 
-const searchListUpdate = function() {
-  $('.search-list').append(`<li class="list-group-item p-0 pt-2">${onScreen.keyword}</li>`);
-}
-
-const cardTemplate = function(data){
+  const cardTemplate = function(data) {
     const info = {
       imgStill: data.images['480w_still'].url,
       imgGif: data.images['downsized'].url,
@@ -49,18 +52,20 @@ const cardTemplate = function(data){
     }
     let cardMarkUp =
       `
-      <div data-toggle="modal" data-target="#${info.id}" class="card mb-3 mx-auto mx-md-0 p-0 col-md-3" data-id="${info.id}">
-      <img style="height: 200px; width: 100%; display: block;" src="${info.imgStill}"
-        alt="Card image">
+      <div  class="card mb-3 mx-auto mx-md-0 p-0 col-md-3" data-id="${info.id}">
+        <img data-toggle="modal" data-target="#${info.id}"  src="${info.imgStill}"
+          alt="Card image">
         <div class="card-body">
           <p class="card-text">Rating: ${info.rating.toUpperCase()}</p>
           <p class="card-text">Date Added: ${info.createdDate}</p>
+          <butto data-id="${info.id}"  class="btn btn-primary save-me">Save</button>
         </div>
-        <div class="card-body py-0 ">
-        <a href="#" class="card-link">Card link</a>
-        <a href="#" class="card-link">Another link</a>
+
+
+
       </div>
       `;
+
     let modal = `<div class="modal" id='${info.id}'>
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -70,55 +75,86 @@ const cardTemplate = function(data){
         </div>
       </div></div>`;
 
-    $('modals').append(modal);
+    $(htmlHooks.modalStore).append(modal);
 
-    let $card = $(cardMarkUp)[0];
-
-    return $card;
+    return cardMarkUp;
   };
+  //getSearchImages automatically calls the functions that generate the gallery
+  const getSearchImages = function() {
+    fetch(`https://api.giphy.com/v1/gifs/search?api_key=YqLensbIWv5skyGVSr6ZPFClfQImMmX4&q=${onScreen.keyword}&limit=${onScreen.limit}&offset=${onScreen.offset}&rating=G&lang=en`)
+      .then(res => res.json())
+      .then(data => {
+        let foo = rowGenerator(data.data);
+        $('.img-gal').html(foo);
+        saveCategories();
+        $('.save-me').on('click', function(e) {
+          console.log(this);
+          let val = $(this).attr('data-id')
 
-const getSearchImages = function() {
-  fetch(`https://api.giphy.com/v1/gifs/search?api_key=YqLensbIWv5skyGVSr6ZPFClfQImMmX4&q=${onScreen.keyword}&limit=${onScreen.limit}&offset=${onScreen.offset}&rating=G&lang=en`)
-  .then(res => res.json())
-  .then(data => {
-    console.log(data.data)
-    let foo = rowGenerator(data.data);
-    $('.img-gal').html(foo);
+
+
+
+        });
+      });
+  }
+
+  const categoryBtn = function() {
+    $('.categories .row').append(`<button data-word="${onScreen.keyword}" class="btn btn-large btn-info  col-3 col-md-3 m-1">${onScreen.keyword}</button>`);
+  }
+
+  const searchListUpdate = function() {
+    $('.search-list').append(`<li class="list-group-item p-0 pt-2">${onScreen.keyword}</li>`);
+  }
+
+  const saveCategories = function() {
+    let key  = onScreen.keyword.toLowerCase();
+    if(StorageCtrl.storeCategory.categories.indexOf(key) == -1) {
+      StorageCtrl.storeCategory.categories.push(key);
+
+    }
+    console.log(StorageCtrl.storeCategory.categories);
+
+  }
+
+  // Event listners
+  $(htmlHooks.pagination).on('click', '.page-item', function() {
+    htmlHooks.currentPage.classList.remove('active');
+    htmlHooks.currentPage = this;
+    this.classList.add('active');
+    const value = this.attributes.value.value;
+    onScreen.offset = value * onScreen.limit;
+    getSearchImages();
   });
-}
 
-$('.pagination').on('click','.page-item', function(){
-  onScreen.currBtn.classList.remove('active');
-  onScreen.currBtn = this;
-  this.classList.add('active');
-  const value = this.attributes.value.value;
-  onScreen.offset = value * onScreen.limit;
-  getSearchImages();
-});
+  $(htmlHooks.searchBar).on('submit', function(e) {
+    e.preventDefault();
+    let query = e.target[1].value;
+    onScreen.keyword = query;
+    getSearchImages();
+    e.target[1].value = '';
+    searchListUpdate();
+    categoryBtn();
+  });
 
-$('#search').on('submit', function(e) {
-  e.preventDefault();
-  let query = e.target[1].value;
-  onScreen.keyword = query;
-  getSearchImages();
-  e.target[1].value = '';
-  searchListUpdate();
-  categoryBtn();
-});
-
-$('.categories').on('click', '.btn', function() {
+  $(htmlHooks.categorySection).on('click', '.btn', function() {
     let word = $(this).attr('data-word');
     onScreen.keyword = word;
     getSearchImages();
 
 
-});
+  });
 
-return {
-  init: getSearchImages
-}
 
-})();
+
+  //Public Methods
+  return {
+    init: getSearchImages
+  }
+
+})(StorageCtrl);
+
+
+
 
 
 UICtrl.init();
