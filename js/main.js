@@ -6,11 +6,17 @@ const UICtrl = (function(){
     offset: 0,
     currBtn: document.querySelector('.starter')
   }
+
+const categoryBtn = function() {
+    $('.categories .row').append(`<button data-word="${onScreen.keyword}" class="btn btn-large btn-info  col-2 col-md-1 m-1">${onScreen.keyword}</button>`);
+}
+
 const rowGenerator = function(data){
 
     let container = document.createElement('div');
     let node = document.createElement('div');
     node.classList.add('row');
+    console.log(node, "I should be empty");
     // This works. I do not know why but all the nodes are there before it is called.
     data.forEach((item, index) => {
       let card = cardTemplate(item);
@@ -28,6 +34,11 @@ const rowGenerator = function(data){
     return container;
 
   }
+
+const searchListUpdate = function() {
+  $('.search-list').append(`<li class="list-group-item p-0 pt-2">${onScreen.keyword}</li>`);
+}
+
 const cardTemplate = function(data){
     const info = {
       imgStill: data.images['480w_still'].url,
@@ -39,7 +50,7 @@ const cardTemplate = function(data){
     let cardMarkUp =
       `
       <div data-toggle="modal" data-target="#${info.id}" class="card mb-3 mx-auto mx-md-0 p-0 col-md-3" data-id="${info.id}">
-      <img style="height: 200px; width: 100%; display: block;" src="${info.imgGif}"
+      <img style="height: 200px; width: 100%; display: block;" src="${info.imgStill}"
         alt="Card image">
         <div class="card-body">
           <p class="card-text">Rating: ${info.rating.toUpperCase()}</p>
@@ -82,7 +93,6 @@ $('.pagination').on('click','.page-item', function(){
   this.classList.add('active');
   const value = this.attributes.value.value;
   onScreen.offset = value * onScreen.limit;
-
   getSearchImages();
 });
 
@@ -92,6 +102,14 @@ $('#search').on('submit', function(e) {
   onScreen.keyword = query;
   getSearchImages();
   e.target[1].value = '';
+  searchListUpdate();
+  categoryBtn();
+});
+
+$('.categories').on('click', '.btn', function() {
+    let word = $(this).attr('data-word');
+    onScreen.keyword = word;
+    getSearchImages();
 
 
 });
