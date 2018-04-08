@@ -3,7 +3,7 @@ const StorageCtrl = (function() {
   myStorage = window.localStorage;
 
   const store = {
-    categories: []
+    categories: ['cats','dogs','birds']
   }
 
   const setToLocal = function() {
@@ -11,12 +11,25 @@ const StorageCtrl = (function() {
     console.log(parsedStore);
     myStorage.setItem('store',parsedStore);
   }
+  //Bootstrap local storage
+  setToLocal();
+
+  const loadCategories = function() {
+    const str = myStorage.getItem('store');
+    const obj = JSON.parse(str);
+    store.categories = obj.categories;
+
+    return store.categories;
+  }
+
+
 
 
 
   return {
     storeCategory: store,
-    setToLocal: setToLocal
+    setToLocal: setToLocal,
+    getCategories: loadCategories
   }
 
 
@@ -114,7 +127,7 @@ const UICtrl = (function(StorageCtrl) {
   }
 
   const categoryBtn = function() {
-    $('.categories .row').append(`<button data-word="${onScreen.keyword}" class="btn btn-large btn-info  col-3 col-md-3 m-1">${onScreen.keyword}</button>`);
+    $('.categories .row').append(`<button data-word="${onScreen.keyword}" class="btn btn-large btn-info  col-2 col-md-2 m-1">${onScreen.keyword}</button>`);
   }
 
   const searchListUpdate = function() {
@@ -129,6 +142,14 @@ const UICtrl = (function(StorageCtrl) {
 
     }
     console.log(StorageCtrl.storeCategory.categories);
+
+  }
+
+  const loadCategories = function() {
+    const list = StorageCtrl.getCategories();
+    list.forEach( item => {
+      $('.categories .row').append(`<button data-word="${item}" class="btn btn-large btn-info  col-2 col-md-2 m-1">${item}</button>`);
+    });
 
   }
 
@@ -164,7 +185,8 @@ const UICtrl = (function(StorageCtrl) {
 
   //Public Methods
   return {
-    init: getSearchImages
+    init: getSearchImages,
+    loadCat: loadCategories
   }
 
 })(StorageCtrl);
@@ -174,3 +196,4 @@ const UICtrl = (function(StorageCtrl) {
 
 
 UICtrl.init();
+UICtrl.loadCat();
