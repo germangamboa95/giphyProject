@@ -1,16 +1,31 @@
 const StorageCtrl = (function() {
+
+  myStorage = window.localStorage;
+
   const store = {
     categories: []
   }
 
+  const setToLocal = function() {
+    const parsedStore = JSON.stringify(store);
+    console.log(parsedStore);
+    myStorage.setItem('store',parsedStore);
+  }
+
+
+
   return {
-    storeCategory: store
+    storeCategory: store,
+    setToLocal: setToLocal
   }
 
 
 })()
 
 const UICtrl = (function(StorageCtrl) {
+
+
+
 
   const onScreen = {
     keyword: 'Cats',
@@ -110,6 +125,7 @@ const UICtrl = (function(StorageCtrl) {
     let key  = onScreen.keyword.toLowerCase();
     if(StorageCtrl.storeCategory.categories.indexOf(key) == -1) {
       StorageCtrl.storeCategory.categories.push(key);
+      StorageCtrl.setToLocal();
 
     }
     console.log(StorageCtrl.storeCategory.categories);
