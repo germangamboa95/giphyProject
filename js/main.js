@@ -3,7 +3,8 @@ const StorageCtrl = (function() {
   myStorage = window.localStorage;
 
   const store = {
-    categories: ['cats','dogs','birds']
+    categories: ['cats','dogs','birds'],
+    saved: []
   }
 
   const setToLocal = function() {
@@ -11,8 +12,7 @@ const StorageCtrl = (function() {
     console.log(parsedStore);
     myStorage.setItem('store',parsedStore);
   }
-  //Bootstrap local storage
-  setToLocal();
+
 
   const loadCategories = function() {
     const str = myStorage.getItem('store');
@@ -22,6 +22,13 @@ const StorageCtrl = (function() {
     return store.categories;
   }
 
+  const loadSavedImgs = function() {
+    const str = myStorage.getItem('store');
+    const obj = JSON.parse(str);
+    store.saved = obj.saved;
+
+    return store.saved;
+  }
 
 
 
@@ -29,7 +36,8 @@ const StorageCtrl = (function() {
   return {
     storeCategory: store,
     setToLocal: setToLocal,
-    getCategories: loadCategories
+    getCategories: loadCategories,
+    getSavedImages: loadSavedImgs
   }
 
 
@@ -55,6 +63,23 @@ const UICtrl = (function(StorageCtrl) {
     currentPage: document.querySelector('.starter')
   }
 
+  const saveImage = function(){
+    $('.save-me').on('click', function(e) {
+      console.log(this);
+      let val = $(this).attr('data-id');
+
+      if(StorageCtrl.storeCategory.saved.indexOf(val) == -1) {
+        StorageCtrl.storeCategory.saved.push(val);
+        StorageCtrl.setToLocal();
+      }
+
+
+
+
+
+
+    });
+  }
 
   //Row Generator and cardTemplate take care of generating the gallery as needed.
   const rowGenerator = function(data) {
@@ -108,6 +133,7 @@ const UICtrl = (function(StorageCtrl) {
     return cardMarkUp;
   };
   //getSearchImages automatically calls the functions that generate the gallery
+  // Destructure this mess later
   const getSearchImages = function() {
     fetch(`https://api.giphy.com/v1/gifs/search?api_key=YqLensbIWv5skyGVSr6ZPFClfQImMmX4&q=${onScreen.keyword}&limit=${onScreen.limit}&offset=${onScreen.offset}&rating=G&lang=en`)
       .then(res => res.json())
@@ -115,15 +141,25 @@ const UICtrl = (function(StorageCtrl) {
         let foo = rowGenerator(data.data);
         $('.img-gal').html(foo);
         saveCategories();
-        $('.save-me').on('click', function(e) {
-          console.log(this);
-          let val = $(this).attr('data-id')
+        saveImage();
 
-
-
-
-        });
       });
+  }
+
+  const getSavedImages = function() {
+    const query = StorageCtrl.getSavedImages().join(',');
+    console.log(query);
+    fetch(`https://api.giphy.com/v1/gifs?api_key=YqLensbIWv5skyGVSr6ZPFClfQImMmX4&ids=${query}`)
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        let foo = rowGenerator(data.data);
+        $('.img-gal').html(foo);
+        //saveCategories();
+        //saveImage();
+
+      });
+
   }
 
   const categoryBtn = function() {
@@ -147,11 +183,14 @@ const UICtrl = (function(StorageCtrl) {
 
   const loadCategories = function() {
     const list = StorageCtrl.getCategories();
+    StorageCtrl.getSavedImages();
     list.forEach( item => {
       $('.categories .row').append(`<button data-word="${item}" class="btn btn-large btn-info  col-2 col-md-2 m-1">${item}</button>`);
     });
 
   }
+
+
 
   // Event listners
   $(htmlHooks.pagination).on('click', '.page-item', function() {
@@ -185,15 +224,20 @@ const UICtrl = (function(StorageCtrl) {
 
   //Public Methods
   return {
-    init: getSearchImages,
+    initHome: getSearchImages,
+    initSaved: getSavedImages,
     loadCat: loadCategories
   }
 
 })(StorageCtrl);
 
-
-
-
-
-UICtrl.init();
 UICtrl.loadCat();
+
+
+
+
+
+//Bootstrap local storage into existance
+if(window.localStorage.getItem('store') == null) {
+  StorageCtrl.setToLocal();
+}
