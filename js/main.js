@@ -41,16 +41,8 @@ const StorageCtrl = (function() {
 
 })()
 
-const UICtrl = (function(StorageCtrl) {
+const UICtrl = (function() {
 
-  const DOM = {
-    modalStore: 'modals',
-    pagination: '.pagination',
-    searchBar: '#search',
-    mobileBar: '#search-m',
-    categorySection: '.categories',
-    currentPage: document.querySelector('.starter')
-  }
 
   const cardTemplate = function(data) {
     const info = {
@@ -58,16 +50,19 @@ const UICtrl = (function(StorageCtrl) {
       imgGif: data.images['downsized'].url,
       id: data.id,
       rating: data.rating,
-      createdDate: data.import_datetime
+      createdDate: data.import_datetime,
+      title: data.title
     }
+
     let cardMarkUp =
       `
       <div  class="card mb-3 mx-auto mx-md-0 p-0 col-md-3" data-id="${info.id}">
         <img data-toggle="modal" data-target="#${info.id}"  src="${info.imgStill}"
           alt="Card image">
         <div class="card-body">
+          <p class="card-text">${info.title.toUpperCase()}</p>
           <p class="card-text">Rating: ${info.rating.toUpperCase()}</p>
-          <p class="card-text">Date Added: ${info.createdDate}</p>
+          <p class="card-text">Date Added: <br> ${new Date(info.createdDate).toDateString()}</p>
           <butto data-id="${info.id}"  class="btn btn-primary save-me">Save</button>
         </div>
 
@@ -85,9 +80,7 @@ const UICtrl = (function(StorageCtrl) {
         </div>
       </div></div>`;
 
-    $(DOM.modalStore).append(modal);
-
-    return cardMarkUp;
+    return cardMarkUp + modal;
   };
 
   const galleryGenerator = function(data) {
@@ -103,11 +96,19 @@ const UICtrl = (function(StorageCtrl) {
     return container;
   }
 
-  return {
-    galleryGenerator: galleryGenerator
+  const categoryBtnGenerator = function(data) {
+    data.forEach( item => {
+      $('.categories .row').append(`<button data-word="${item}" class="btn btn-large btn-info  col-2 col-md-2 m-1">${item}</button>`);
+    });
+
   }
 
-})(StorageCtrl);
+  return {
+    galleryGenerator: galleryGenerator,
+    dispBtn: categoryBtnGenerator
+  }
+
+})();
 
 
 
@@ -142,57 +143,6 @@ const appCtrl = (function(StorageCtrl,UICtrl){
     });
   }
 
-  //Row Generator and cardTemplate take care of generating the gallery as needed.
-  const galleryGenerator = function(data) {
-    const cardTemplate = function(data) {
-      const info = {
-        imgStill: data.images['480w_still'].url,
-        imgGif: data.images['downsized'].url,
-        id: data.id,
-        rating: data.rating,
-        createdDate: data.import_datetime
-      }
-      let cardMarkUp =
-        `
-        <div  class="card mb-3 mx-auto mx-md-0 p-0 col-md-3" data-id="${info.id}">
-          <img data-toggle="modal" data-target="#${info.id}"  src="${info.imgStill}"
-            alt="Card image">
-          <div class="card-body">
-            <p class="card-text">Rating: ${info.rating.toUpperCase()}</p>
-            <p class="card-text">Date Added: ${info.createdDate}</p>
-            <butto data-id="${info.id}"  class="btn btn-primary save-me">Save</button>
-          </div>
-
-
-
-        </div>
-        `;
-
-      let modal = `<div class="modal" id='${info.id}'>
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <img data-toggle="modal" data-target="" style="height: auto; width: 100%; display: block;" src="${info.imgGif}"
-              alt="Card image">
-
-          </div>
-        </div></div>`;
-
-      $(DOM.modalStore).append(modal);
-
-      return cardMarkUp;
-    };
-
-    let container = document.createElement('div');
-    let node = document.createElement('div');
-    node.classList.add('row');
-    data.forEach((item, index) => {
-      node.innerHTML += cardTemplate(item);
-    });
-    container.appendChild(node);
-
-    return container;
-  }
-
   //getSearchImages automatically calls the functions that generate the gallery
   const getSearchImages = function() {
     fetch(`https://api.giphy.com/v1/gifs/search?api_key=YqLensbIWv5skyGVSr6ZPFClfQImMmX4&q=${tempQueryData.keyword}&limit=${tempQueryData.limit}&offset=${tempQueryData.offset}&rating=G&lang=en`)
@@ -211,7 +161,6 @@ const appCtrl = (function(StorageCtrl,UICtrl){
     fetch(`https://api.giphy.com/v1/gifs?api_key=YqLensbIWv5skyGVSr6ZPFClfQImMmX4&ids=${query}`)
       .then(res => res.json())
       .then(data => {
-        console.log(data);
         let foo = UICtrl.galleryGenerator(data.data);
         $('.img-gal').html(foo);
       });
@@ -236,9 +185,8 @@ const appCtrl = (function(StorageCtrl,UICtrl){
 
   const loadCategoriesFromLocalStorage = function() {
     const list = StorageCtrl.getCategories();
-    list.forEach( item => {
-      $('.categories .row').append(`<button data-word="${item}" class="btn btn-large btn-info  col-2 col-md-2 m-1">${item}</button>`);
-    });
+    UICtrl.dispBtn(list);
+
 
   }
 
