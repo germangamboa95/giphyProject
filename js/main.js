@@ -58,12 +58,17 @@ const UICtrl = (function() {
       `
       <div  class="card mb-3 mx-auto mx-md-0 p-0 col-lg-3 col-md-6" data-id="${info.id}">
         <img data-toggle="modal" data-target="#${info.id}"  src="${info.imgStill}"
+
           alt="Card image">
         <div class="card-body">
           <p class="card-text">${info.title.toUpperCase()}</p>
           <p class="card-text mb-0"><strong>Rating:</strong> ${info.rating.toUpperCase()}</p>
           <p class="card-text"><strong>Date Added: </strong> <br> ${new Date(info.createdDate).toDateString()}</p>
-          <butto data-id="${info.id}"  class="btn btn-primary save-me">Save</button>
+          <button data-id="${info.id}"  class="btn btn-primary save-me">Save</button>
+          <button data-ref="${info.imgGif}" class="btn btn-secondary download-me">DownLoad</button>
+
+
+
         </div>
 
 
@@ -113,6 +118,20 @@ const UICtrl = (function() {
 
 
 const appCtrl = (function(StorageCtrl,UICtrl){
+  // I must give credit to handtrix on jsfiddle for this function.
+  function convertFileToDataURL(url, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function() {
+      var reader = new FileReader();
+      reader.onloadend = function() {
+        callback(reader.result);
+      }
+      reader.readAsDataURL(xhr.response);
+    };
+    xhr.open('GET', url);
+    xhr.responseType = 'blob';
+    xhr.send();
+  }
 
   const tempQueryData = {
     keyword: 'Cats',
@@ -140,6 +159,19 @@ const appCtrl = (function(StorageCtrl,UICtrl){
         StorageCtrl.saveDataStoreToLocalStorage();
       }
 
+    });
+    $('.download-me').on('click', function() {
+      console.log('asd');
+        const url = $(this).attr('data-ref');
+        convertFileToDataURL(url, function(data){
+          $('#trigger').attr('href', data);
+          document.querySelector('#trigger').click();
+
+
+
+
+
+        });
     });
   }
 
@@ -200,6 +232,7 @@ const appCtrl = (function(StorageCtrl,UICtrl){
 
 
   }
+
 
   $(DOM.loadMore).on('click', function() {
     tempQueryData.offset+= 12;
