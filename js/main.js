@@ -56,13 +56,13 @@ const UICtrl = (function() {
 
     let cardMarkUp =
       `
-      <div  class="card mb-3 mx-auto mx-md-0 p-0 col-md-3" data-id="${info.id}">
+      <div  class="card mb-3 mx-auto mx-md-0 p-0 col-lg-3 col-md-6" data-id="${info.id}">
         <img data-toggle="modal" data-target="#${info.id}"  src="${info.imgStill}"
           alt="Card image">
         <div class="card-body">
           <p class="card-text">${info.title.toUpperCase()}</p>
-          <p class="card-text">Rating: ${info.rating.toUpperCase()}</p>
-          <p class="card-text">Date Added: <br> ${new Date(info.createdDate).toDateString()}</p>
+          <p class="card-text mb-0"><strong>Rating:</strong> ${info.rating.toUpperCase()}</p>
+          <p class="card-text"><strong>Date Added: </strong> <br> ${new Date(info.createdDate).toDateString()}</p>
           <butto data-id="${info.id}"  class="btn btn-primary save-me">Save</button>
         </div>
 
@@ -127,7 +127,7 @@ const appCtrl = (function(StorageCtrl,UICtrl){
     searchBar: '#search',
     mobileBar: '#search-m',
     categorySection: '.categories',
-    currentPage: document.querySelector('.starter')
+    loadMore: '#load-more'
   }
 
   const saveImageClickHandler = function(){
@@ -150,6 +150,17 @@ const appCtrl = (function(StorageCtrl,UICtrl){
       .then(data => {
         let foo = UICtrl.galleryGenerator(data.data);
         $('.img-gal').html(foo);
+        saveCategories();
+        saveImageClickHandler(); // Move once app controller is in place
+
+      });
+  }
+  const getSearchImagesV1 = function() {
+    fetch(`https://api.giphy.com/v1/gifs/search?api_key=YqLensbIWv5skyGVSr6ZPFClfQImMmX4&q=${tempQueryData.keyword}&limit=${tempQueryData.limit}&offset=${tempQueryData.offset}&rating=G&lang=en`)
+      .then(res => res.json())
+      .then(data => {
+        let foo = UICtrl.galleryGenerator(data.data);
+        $('.img-gal').append(foo);
         saveCategories();
         saveImageClickHandler(); // Move once app controller is in place
 
@@ -190,13 +201,11 @@ const appCtrl = (function(StorageCtrl,UICtrl){
 
   }
 
-  $(DOM.pagination).on('click', '.page-item', function() {
-    DOM.currentPage.classList.remove('active');
-    DOM.currentPage = this;
-    this.classList.add('active');
-    const value = this.attributes.value.value;
-    tempQueryData.offset = value * tempQueryData.limit;
-    getSearchImages();
+  $(DOM.loadMore).on('click', function() {
+    tempQueryData.offset+= 12;
+    getSearchImagesV1();
+
+
   });
 
   $(DOM.searchBar).on('submit', function(e) {

@@ -1,3 +1,5 @@
+
+
 .card {
   border: none;
 }
@@ -5,4 +7,13 @@
   padding: 1em;
   height: 200px;
   width: 100%;
+}
+
+@media (max-width: 767px) {
+  .card img{
+    width: 100%;
+    height: auto;
+
+  }
+
 }
