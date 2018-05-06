@@ -1,3 +1,4 @@
+
 const StorageCtrl = (function() {
 
   myStorage = window.localStorage;
@@ -118,7 +119,9 @@ const UICtrl = (function() {
 
 
 const appCtrl = (function(StorageCtrl,UICtrl){
+
   // I must give credit to handtrix on jsfiddle for this function.
+
   function convertFileToDataURL(url, callback) {
     var xhr = new XMLHttpRequest();
     xhr.onload = function() {
