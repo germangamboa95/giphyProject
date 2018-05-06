@@ -15,5 +15,5 @@ The aim of this app is to have a place where people can look up gifs based on th
 
 ## The toughest challenge encountered: 
 
-Downloading the images requires them to be converted to base64 using the browsers file api. I had to learn to use the file api in order to complete that part. 
+Downloading the images requires them to be converted to base64 using the browsers file API. I had to learn to use the file API in order to complete that part. 
 
