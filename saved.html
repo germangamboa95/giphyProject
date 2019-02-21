@@ -1,65 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>My giphy!</title>
-  <link rel="stylesheet" href="css/bootstrap.min.css">
-  <link rel="stylesheet" href="css/styles.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>My giphy!</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
 
-</head>
+  <body>
+    <header class="sticky-top w-100">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-primary ">
+        <a class="navbar-brand" href="index.html">My Giphy</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarColor01"
+          aria-controls="navbarColor01"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div
+          class="collapse navbar-collapse d-xs-flex justify-content-end"
+          id="navbarColor01"
+        >
+          <ul class="navbar-nav mr-3">
+            <li class="nav-item active">
+              <a class="nav-link" href="index.html"
+                >Home <span class="sr-only">(current)</span></a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="saved.html">Saved Gifs</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">About</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
 
-<body>
-  <header class="sticky-top w-100">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary ">
-      <a class="navbar-brand" href="index.html">My Giphy</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-       <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse d-xs-flex justify-content-end" id="navbarColor01">
-        <ul class="navbar-nav mr-3">
-          <li class="nav-item active">
-            <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="saved.html">Saved Gifs</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="about.html">About</a>
-          </li>
-
-        </ul>
-      </div>
-    </nav>
-  </header>
-
-  <main>
-    <div class="container mt-4">
-      <div class="intro col-md-6">
-        <h2>Welcome to Your Saved Images!</h2>
-        <p>If nothing shows up that mean's you have not saved any images yet!</p>
-      </div>
-      <!-- End categories section -->
-      <hr>
-      <div class="gallery col-md-9">
-        <div class="container">
-          <div class="row img-gal">
-            <!-- End card -->
+    <main>
+      <div class="container mt-4">
+        <div class="intro col-md-6">
+          <h2>Welcome to Your Saved Images!</h2>
+          <p>
+            If nothing shows up that mean's you have not saved any images yet!
+          </p>
+        </div>
+        <!-- End categories section -->
+        <hr />
+        <div class="gallery col-md-9">
+          <div class="container">
+            <div class="row img-gal">
+              <!-- End card -->
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <!--End  main container -->
-  </main>
+      <!--End  main container -->
+    </main>
 
-
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-  <script src="js/bootstrap.min.js" charset="utf-8"></script>
-  <script src="js/main.js" charset="utf-8"></script>
-  <script type="text/javascript">
-    appCtrl.initSaved();
-  </script>
-</body>
-
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script src="js/bootstrap.min.js" charset="utf-8"></script>
+    <script src="js/helpers.js"></script>
+    <script src="js/store.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/main.js"></script>
+    <script type="text/javascript">
+      appCtrl.initSaved();
+    </script>
+  </body>
 </html>

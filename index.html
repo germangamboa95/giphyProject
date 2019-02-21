@@ -1,123 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>My giphy!</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>My giphy!</title>
-  <link rel="stylesheet" href="css/bootstrap.min.css">
-  <link rel="stylesheet" href="css/styles.css">
+  <body>
+    <header class="sticky-top w-100">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-primary ">
+        <a class="navbar-brand" href="index.html">My Giphy</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarColor01"
+          aria-controls="navbarColor01"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div
+          class="collapse navbar-collapse d-xs-flex justify-content-end"
+          id="navbarColor01"
+        >
+          <ul class="navbar-nav mr-3">
+            <li class="nav-item active">
+              <a class="nav-link" href="index.html"
+                >Home <span class="sr-only">(current)</span></a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="saved.html">Saved Gifs</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">About</a>
+            </li>
+            <li class="nav-item d-md-none mt-3 mb-2">
+              <form class=" text-light" id="search-m">
+                <fieldset class="row mx-auto">
+                  <legend>
+                    <h2>Search</h2>
+                  </legend>
+                  <input class="col-12 mx-auto" type="text" name="search" />
+                </fieldset>
+              </form>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
 
-</head>
+    <main>
+      <div id="top"></div>
 
-<body>
-  <header class="sticky-top w-100">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary ">
-      <a class="navbar-brand" href="index.html">My Giphy</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-       <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse d-xs-flex justify-content-end" id="navbarColor01">
-        <ul class="navbar-nav mr-3">
-          <li class="nav-item active">
-            <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="saved.html">Saved Gifs</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="about.html">About</a>
-          </li>
-          <li class="nav-item d-md-none mt-3 mb-2">
-            <form class=" text-light" id="search-m">
-              <fieldset class="row mx-auto">
-                <legend>
-                  <h2>Search</h2></legend>
-                <input class="col-12 mx-auto" type="text" name="search">
-              </fieldset>
-
-            </form>
-
-          </li>
-        </ul>
-      </div>
-    </nav>
-  </header>
-
-  <main>
-    <div id="top"></div>
-
-    <div class="container mt-4">
-
-
-
-
+      <div class="container mt-4">
         <div class="intro col-md-6">
           <h2>Welcome to My Giphy!</h2>
-          <p>Get started by searching a category! Or feel free to click on one of the default ones on top. Don't worry you will be able to add more defaults categories as you go on!</p>
+          <p>
+            Get started by searching a category! Or feel free to click on one of
+            the default ones on top. Don't worry you will be able to add more
+            defaults categories as you go on!
+          </p>
         </div>
 
-      <div class="categories">
-        <h2>Categories</h2>
+        <div class="categories">
+          <h2>Categories</h2>
+          <div class="row"></div>
+        </div>
+
+        <!-- End categories section -->
+        <hr />
         <div class="row">
-
-        </div>
-      </div>
-
-
-      <!-- End categories section -->
-      <hr>
-      <div class="row">
-
-        <div class="gallery col-md-9">
-          <div class="container">
-          <div class="row img-gal">
-
-          <!-- End card -->
+          <div class="gallery col-md-9">
+            <div class="container">
+              <div class="row img-gal">
+                <!-- End card -->
+              </div>
+              <button
+                id="load-more"
+                class="btn btn-primary btn-block mx-auto mb-3"
+              >
+                Load More...
+              </button>
+              <a class="float-right mb-3" href="#top">To Top</a>
+            </div>
           </div>
-          <button id="load-more" class="btn btn-primary btn-block mx-auto mb-3">Load More...</button> <a class="float-right mb-3" href="#top">To Top</a>
-
+          <!-- end gallery section-->
+          <div class="search-section col-md-3  d-none d-md-block">
+            <form class="text-center" id="search">
+              <fieldset class="row mx-auto">
+                <legend>
+                  <h2>Search</h2>
+                </legend>
+                <input class="col-12 mx-auto" type="text" name="search" />
+              </fieldset>
+              <ul class="list-group w-100 mx-auto mt-1 search-list">
+                <li class="list-group-item active p-0 pt-2">
+                  <h5>Recent Searches</h5>
+                </li>
+              </ul>
+            </form>
+          </div>
         </div>
 
-
-        </div>
-        <!-- end gallery section-->
-        <div class="search-section col-md-3  d-none d-md-block">
-          <form class="text-center" id="search">
-            <fieldset class="row mx-auto">
-              <legend>
-                <h2>Search</h2></legend>
-              <input class="col-12 mx-auto" type="text" name="search" >
-            </fieldset>
-            <ul class="list-group w-100 mx-auto mt-1 search-list">
-              <li class="list-group-item active p-0 pt-2">
-                <h5>Recent Searches</h5>
-              </li>
-            </ul>
-          </form>
-        </div>
+        <!-- End card row -->
       </div>
+      <!--End  main container -->
+    </main>
+    <footer class="text-center bg-dark h-100">
+      <p class="pt-2 text-light">Made by German with Coffee</p>
+    </footer>
+    <a id="trigger" download onclick="console.log('hi')"></a>
 
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script src="js/bootstrap.min.js" charset="utf-8"></script>
+    <script src="js/helpers.js"></script>
+    <script src="js/store.js"></script>
+    <script src="js/ui.js"></script>
 
-      <!-- End card row -->
-
-    </div>
-    <!--End  main container -->
-  </main>
-  <footer class="text-center bg-dark h-100">
-    <p class="pt-2 text-light">Made by German with Coffee</p>
-  </footer>
-  <a id="trigger"  download onclick="console.log('hi')"></a>
-
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-  <script src="js/bootstrap.min.js" charset="utf-8"></script>
-
-  <script src="js/main.js" charset="utf-8"></script>
-  <script type="text/javascript">
-  appCtrl.initHome();
-
-  </script>
-</body>
-
+    <script src="js/main.js" charset="utf-8"></script>
+    <script type="text/javascript">
+      appCtrl.initHome();
+    </script>
+  </body>
 </html>

@@ -1,65 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>My giphy!</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>My giphy!</title>
-  <link rel="stylesheet" href="css/bootstrap.min.css">
-  <link rel="stylesheet" href="css/styles.css">
+  <body>
+    <header class="sticky-top w-100">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-primary ">
+        <a class="navbar-brand" href="#">My Giphy</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarColor01"
+          aria-controls="navbarColor01"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div
+          class="collapse navbar-collapse d-xs-flex justify-content-end"
+          id="navbarColor01"
+        >
+          <ul class="navbar-nav mr-3">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="saved.html">Saved Gifs</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">About</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
 
-</head>
-
-<body>
-  <header class="sticky-top w-100">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary ">
-      <a class="navbar-brand" href="#">My Giphy</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-       <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse d-xs-flex justify-content-end" id="navbarColor01">
-        <ul class="navbar-nav mr-3">
-          <li class="nav-item">
-            <a class="nav-link" href="index.html">Home</a>
-          </li>
-          <li class="nav-item active">
-            <a class="nav-link" href="saved.html">Saved Gifs</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="about.html">About</a>
-          </li>
-        </ul>
+    <main style="height: 90vh;">
+      <div class="container mt-4 clearfix">
+        <section class="container about-me group">
+          <h1>About Me</h1>
+          <hr />
+          <img
+            class="w-25 mx-auto mb-3 d-block rounded"
+            src="img/german2018.jpg"
+            alt="A picture of German"
+          />
+          <p>
+            A simple creature that goes by the name German. He is fueled by
+            copious amounts of caffeine. Most of the time he can be found
+            developing solutions on the web. This creature is by nature a
+            problem solver. Thus it is only natural that he would also be a
+            Developer. German currently specializes in the Web Technologies. He
+            can be found using HTML, CSS, JavaScipt, and PHP... in the same
+            manner that primates use rocks to crack nuts.
+          </p>
+          <br />
+        </section>
       </div>
-    </nav>
-  </header>
+      <!--End  main container -->
+    </main>
+    <footer class="text-center bg-dark h-100">
+      <p class="pt-2 text-light">Made by German with Coffee</p>
+    </footer>
+    <button id="download">DownLoad</button>
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
 
-  <main style="height: 90vh;">
+    <script src="js/bootstrap.min.js" charset="utf-8"></script>
+    <script src="js/bootstrap.min.js" charset="utf-8"></script>
+    <script src="js/helpers.js"></script>
+    <script src="js/store.js"></script>
+    <script src="js/ui.js"></script>
 
-    <div class="container mt-4 clearfix">
-      <section class="container about-me group">
-  <h1>About Me</h1>
-  <hr>
-  <img class="w-25 mx-auto mb-3 d-block rounded" src="img/german2018.jpg" alt="A picture of German">
-  <p>A simple creature that goes by the name German. He is fueled by copious amounts of caffeine. Most of the time he can be found developing solutions on the web. This creature is by nature a problem solver. Thus it is only natural that he would also
-    be a Developer. German currently specializes in the Web Technologies. He can be found using HTML, CSS, JavaScipt, and PHP... in the same manner that primates use rocks to crack nuts.</p>
-  <br>
-</section>
-
-    </div>
-    <!--End  main container -->
-  </main>
-  <footer class="text-center bg-dark h-100">
-    <p class="pt-2 text-light">Made by German with Coffee</p>
-  </footer>
-  <button id='download'>DownLoad</button>
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-
-
-
-
-  <script src="js/bootstrap.min.js" charset="utf-8"></script>
-  <script src="js/main.js" charset="utf-8"></script>
-</body>
-
+    <script src="js/main.js" charset="utf-8"></script>
+  </body>
 </html>
